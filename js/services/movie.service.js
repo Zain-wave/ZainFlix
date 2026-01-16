@@ -10,8 +10,69 @@ export async function getPopularMovies() {
   });
 
   const data = await response.json();
-  console.log(data);
   return data;
 }
 
-getPopularMovies();
+export function createMovieCard(movie, index) {
+  const cardClasses = [
+    "card-magenta",
+    "card-cyan",
+    "card-magenta",
+    "card-cyan",
+  ];
+  const labels = ["New Season", "Trending", "Original", "Anime"];
+  const labelClasses = [
+    "label-magenta",
+    "label-cyan",
+    "label-magenta",
+    "label-cyan",
+  ];
+
+  const imageUrl = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO5kCepNdhZvDKJtmPAIWnloSdTal7N1CQaA&s";
+
+  return `
+    <div class="content-card ${cardClasses[index]}">
+      <div
+        class="card-image"
+        style="background-image: url('${imageUrl}');"
+      ></div>
+      <div class="card-gradient"></div>
+      <div class="card-info">
+        <span class="card-label ${labelClasses[index]}">${labels[index]}</span>
+        <span class="card-title">${movie.title || movie.name}</span>
+      </div>
+    </div>
+  `;
+}
+
+export function renderMovies(movies) {
+  const contentGrid = document.getElementById("contentGrid");
+  if (!contentGrid) return;
+
+  const movieCards = movies
+    .slice(0, 4)
+    .map((movie, index) => createMovieCard(movie, index))
+    .join("");
+
+  contentGrid.innerHTML = movieCards;
+}
+
+// Initialize cards with popular movies
+async function initializeCards() {
+  try {
+    const data = await getPopularMovies();
+    const movies = data.results?.slice(0, 4) || [];
+    renderMovies(movies);
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+  }
+}
+
+// Auto-initialize when DOM is loaded
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeCards);
+} else {
+  initializeCards();
+}

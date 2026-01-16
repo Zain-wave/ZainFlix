@@ -1,13 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZainFlix</title>
+    <title>ZainFlix - El Futuro del Streaming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/main.css" />
   </head>
   <body>
-    <h1>Welcome to ZainFlix</h1>
-    <p>Your ultimate destination for streaming movies and TV shows.</p>
+    <div class="page-wrapper">
+      <!-- Elementos de fondo -->
+      <div class="background-effects">
+        <div class="grid-pattern"></div>
+        <div class="glow-blob glow-blob-magenta"></div>
+        <div class="glow-blob glow-blob-cyan"></div>
+      </div>
+
+      <!-- Header -->
+      <header class="header">
+        <div class="header-container">
+          <div class="logo-group">
+            <span class="material-symbols-outlined logo-icon"
+              >smart_display</span
+            >
+            <h2 class="logo-text">ZAINFLIX</h2>
+          </div>
+          <div class="header-actions">
+            <button class="btn-search">Search</button>
+            <button class="btn-signin">Sign In</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="content-wrapper">
+          <div class="hero-section">
+            <div class="badge">
+              <span class="badge-dot"></span>
+              Next Gen Streaming
+            </div>
+
+            <h1 class="hero-title">Z A I N F L I X</h1>
+
+            <p class="hero-description">
+              Unlimited movies, TV shows, and anime.
+              <span class="description-secondary"
+                >Optimized for speed, curated for you.</span
+              >
+            </p>
+
+            <div class="cta-buttons">
+              <button class="btn-primary">
+                <span>Join the Stream</span>
+                <span class="material-symbols-outlined">rocket_launch</span>
+                <div class="shine-effect"></div>
+              </button>
+              <button class="btn-secondary">
+                <span>Sign In</span>
+                <span class="material-symbols-outlined">login</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   </body>
   <script type="module" src="./js/services/movie.service.js"></script>
 </html>

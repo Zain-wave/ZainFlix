@@ -10,6 +10,7 @@ export async function getPopularMovies() {
   });
 
   const data = await response.json();
+  console.log("Popular Movies Data:", data);
   return data;
 }
 
@@ -63,7 +64,7 @@ export function renderMovies(movies) {
 async function initializeCards() {
   try {
     const data = await getPopularMovies();
-    const movies = data.results?.slice(0, 4) || [];
+    const movies = data.results?.slice(6, 10) || [];
     renderMovies(movies);
   } catch (error) {
     console.error("Error fetching movies:", error);

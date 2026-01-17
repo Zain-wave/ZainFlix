@@ -1,0 +1,380 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+body {
+  background-color: #050505;
+  font-family: "Spline Sans", sans-serif;
+  color: white;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.background-container {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.grid-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    black,
+    rgba(5, 5, 5, 0.95),
+    rgba(0, 0, 0, 0.9)
+  );
+  z-index: 20;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 30;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 40;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+  cursor: pointer;
+}
+
+.logo-text {
+  font-size: 1.875rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  background: linear-gradient(to right, #d946ef, #06b6d4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: all 0.3s;
+}
+
+.logo-container:hover .logo-text {
+  filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.5));
+}
+
+.help-link {
+  display: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.help-link:hover {
+  color: white;
+}
+
+.card-container {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  margin-top: 3rem;
+}
+
+.card-border {
+  padding: 1px;
+  background: linear-gradient(to bottom, #d946ef, #a855f7, #06b6d4);
+  box-shadow: 0 0 30px -10px rgba(217, 70, 239, 0.3);
+}
+
+.card-content {
+  background-color: black;
+  position: relative;
+  width: 100%;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.card-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.025em;
+}
+
+.card-subtitle {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.input-label {
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-left: 0.25rem;
+  transition: color 0.2s;
+}
+
+.input-group:focus-within .input-label {
+  color: #06b6d4;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  color: white;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 0;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  font-family: "Noto Sans", sans-serif;
+  outline: none;
+  transition: all 0.3s ease-out;
+}
+
+.form-input::placeholder {
+  color: #4b5563;
+}
+
+.form-input:focus {
+  border-color: #06b6d4;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+}
+
+.password-toggle {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: 20px;
+}
+
+.password-toggle:hover {
+  color: #06b6d4;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+  padding: 0 0.25rem;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  height: 1.25rem;
+}
+
+.form-checkbox {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #4b5563;
+  border-radius: 0;
+  background-color: black;
+  cursor: pointer;
+  appearance: none;
+  transition: all 0.2s;
+}
+
+.form-checkbox:checked {
+  background-color: #d946ef;
+  border-color: #d946ef;
+}
+
+.checkbox-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  line-height: 1.25;
+  padding-top: 0.125rem;
+}
+
+.checkbox-label a {
+  color: #06b6d4;
+  text-decoration: underline;
+  text-decoration-color: rgba(6, 182, 212, 0.3);
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.checkbox-label a:hover {
+  color: #22d3ee;
+}
+
+.submit-button {
+  margin-top: 1rem;
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #c026d3, #7c3aed);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-button:hover {
+  background: linear-gradient(to right, #d946ef, #8b5cf6);
+  transform: translateY(-2px);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+.login-link-section {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.login-text {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.login-link {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 0.25rem;
+  transition: color 0.2s;
+}
+
+.login-link:hover {
+  color: #06b6d4;
+}
+
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  z-index: 10;
+  opacity: 0.4;
+}
+
+.footer-text {
+  font-size: 0.75rem;
+  color: #4b5563;
+  font-family: monospace;
+}
+
+@media (min-width: 640px) {
+  .content-wrapper {
+    padding: 1.5rem;
+  }
+
+  .card-container {
+    margin-top: 0;
+  }
+
+  .help-link {
+    display: flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content-wrapper {
+    padding: 2rem;
+  }
+}

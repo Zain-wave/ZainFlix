@@ -12,6 +12,10 @@
   --slate-850: #151920;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Tipografía Base */
 body {
   font-family: "Spline Sans", sans-serif;

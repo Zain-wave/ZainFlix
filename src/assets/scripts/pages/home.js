@@ -1,6 +1,6 @@
 // ZainFlix Home Page - API Integration
-import { API_CONFIG } from './js/config/api.config.js';
-import { MyListService } from './js/services/mylist.service.js';
+import { API_CONFIG } from '../services/api.js';
+import { MyListService } from '../services/mylist.service.js';
 
 class ZainFlixAPI {
     constructor() {
@@ -370,7 +370,7 @@ class ContentRenderer {
 }
 
 // Import existing movie service functions
-import { getPopularMovies, createMovieCard, renderMovies } from './js/services/movie.service.js';
+import { getPopularMovies, createMovieCard, renderMovies } from '../services/movie.service.js';
 
 class ZainFlixHome {
     constructor() {

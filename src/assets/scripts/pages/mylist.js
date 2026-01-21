@@ -1,7 +1,7 @@
 // ZainFlix My List Page
-import { API_CONFIG } from './js/config/api.config.js';
-import { MyListService } from './js/services/mylist.service.js';
-import { ProfileManager } from './js/components/profile-manager.js';
+import { API_CONFIG } from '../services/api.js';
+import { MyListService } from '../services/mylist.service.js';
+import { ProfileManager } from '../components/profile-manager.js';
 
 class MyListPage {
     constructor() {

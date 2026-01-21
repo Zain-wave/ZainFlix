@@ -97,7 +97,7 @@
                 </label>
               </div>
 
-              <button class="submit-button" type="button">
+<button class="submit-button" type="button" onclick="handleRegister()">
                 Create Account
               </button>
             </form>
@@ -114,7 +114,50 @@
 
       <div class="footer">
         <p class="footer-text">© 2024 ZainFlix Inc.</p>
-      </div>
+</div>
     </div>
+
+    <script>
+      function handleRegister() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+        const terms = document.getElementById('terms').checked;
+
+        if (!email || !password || !confirmPassword) {
+          alert('Please fill in all fields');
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert('Passwords do not match');
+          return;
+        }
+
+        if (!terms) {
+          alert('Please agree to the Terms of Service and Privacy Policy');
+          return;
+        }
+
+        const userData = {
+          email: email,
+          password: password,
+          registrationTime: new Date().toISOString(),
+          isNewUser: true
+        };
+
+        localStorage.setItem('userSession', JSON.stringify(userData));
+        
+        window.location.href = 'profile.html';
+      }
+
+      window.addEventListener('load', function() {
+        const userSession = localStorage.getItem('userSession');
+        if (userSession) {
+          window.location.href = 'profile.html';
+          return;
+        }
+      });
+    </script>
   </body>
 </html>

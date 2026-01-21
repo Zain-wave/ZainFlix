@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ZainFlix Video Player</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="./css/video-player.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="background-image">
+            <div class="background-overlay"></div>
+        </div>
+    </div>
+
+    <div class="top-overlay" id="topOverlay">
+        <div class="header-content">
+            <button class="back-button" id="backButton">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <div class="title-container">
+                <h1 class="main-title" id="movieTitle">Loading...</h1>
+                <span class="episode-info" id="movieInfo">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="center-overlay" id="centerOverlay">
+    </div>
+
+    <div class="bottom-controls" id="bottomControls">
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-track">
+                <div class="progress-buffered" id="progressBuffered"></div>
+                <div class="progress-played" id="progressPlayed">
+                    <div class="progress-thumb"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls-row">
+            <div class="controls-left">
+                <button class="play-button" id="playButton">
+                    <span class="material-symbols-outlined">pause_circle</span>
+                </button>
+                
+                <button class="control-button" id="replayButton">
+                    <span class="material-symbols-outlined replay-icon">replay_10</span>
+                </button>
+                
+                <button class="control-button" id="forwardButton">
+                    <span class="material-symbols-outlined forward-icon">forward_10</span>
+                </button>
+                
+                <div class="volume-control">
+                    <button class="control-button" id="volumeButton">
+                        <span class="material-symbols-outlined">volume_up</span>
+                    </button>
+                    <div class="volume-slider-container">
+                        <div class="volume-slider" id="volumeSlider">
+                            <div class="volume-level" id="volumeLevel"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="time-display">
+                    <span class="current-time" id="currentTime">00:00</span><span class="time-separator">/</span><span id="duration">00:00</span>
+                </div>
+            </div>
+            
+            <div class="controls-right">
+                <button class="control-button" title="Subtitles">
+                    <span class="material-symbols-outlined">subtitles</span>
+                </button>
+                
+                <button class="control-button" title="Settings">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+                
+                <button class="next-episode-button" id="nextEpisodeButton" style="display: none;">
+                    <span>Next Ep</span>
+                    <span class="material-symbols-outlined">skip_next</span>
+                </button>
+                
+                <button class="fullscreen-button" id="fullscreenButton" title="Fullscreen">
+                    <span class="material-symbols-outlined">fullscreen</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // YouTube IFrame API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    </script>
+    <script src="video-player.js"></script>
+</body>
+</html>

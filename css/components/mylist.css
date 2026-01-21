@@ -1,0 +1,63 @@
+/* MyList Service Styles */
+.mylist-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: "Spline Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.mylist-notification.show {
+    transform: translateX(0);
+}
+
+/* Button states for My List */
+.btn-list,
+.modal-icon-btn.primary[aria-label="Add to my list"] {
+    transition: all 0.3s ease;
+}
+
+.btn-list.in-list,
+.modal-icon-btn.primary.in-list {
+    background-color: rgba(34, 197, 94, 0.2);
+    border-color: rgba(34, 197, 94, 0.5);
+}
+
+.btn-list.in-list:hover,
+.modal-icon-btn.primary.in-list:hover {
+    background-color: rgba(34, 197, 94, 0.3);
+    border-color: rgba(34, 197, 94, 0.7);
+}
+
+.btn-list.in-list .material-symbols-outlined,
+.modal-icon-btn.primary.in-list .material-symbols-outlined {
+    color: #22c55e;
+}
+
+/* Tooltip for My List buttons */
+.modal-icon-btn.primary .tooltip {
+    background-color: #1f2937;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-icon-btn.primary:hover .tooltip {
+    opacity: 1;
+}

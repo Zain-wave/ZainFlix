@@ -1,0 +1,472 @@
+/* Modal Base Styles */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-outer {
+  padding: 20px;
+  max-width: 100%;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: #0f0f0f;
+  border-radius: 16px;
+  position: relative;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-backdrop.show .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.close-btn .material-symbols-outlined {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Profile Management Modes */
+
+/* Manage Mode Styles */
+.profiles-grid.manage-mode {
+  position: relative;
+  pointer-events: none; /* Disable all clicks by default */
+}
+
+.profiles-grid.manage-mode::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+/* Profile Items in Manage Mode */
+.profiles-grid.manage-mode .profile-item {
+  position: relative;
+  pointer-events: auto; /* Re-enable for specific items */
+}
+
+.profiles-grid.manage-mode .profile-card {
+  cursor: pointer;
+  position: relative;
+  pointer-events: auto; /* Enable clicks on card */
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.profiles-grid.manage-mode .profile-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.02);
+}
+
+/* Edit Icon (Center) */
+.profiles-grid.manage-mode .profile-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.profiles-grid.manage-mode .profile-card:hover::after {
+  opacity: 1;
+}
+
+.profiles-grid.manage-mode .profile-card::before {
+  content: 'edit';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Material Symbols Outlined';
+  font-size: 36px;
+  color: white;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10;
+  pointer-events: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.profiles-grid.manage-mode .profile-card:hover::before {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Delete Button (now created with JS) */
+.delete-profile-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 36px;
+  height: 36px;
+  background: rgba(239, 68, 68, 0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+  z-index: 20;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.delete-profile-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background: rgba(239, 68, 68, 1);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+}
+
+.delete-profile-btn .material-symbols-outlined {
+  font-size: 20px;
+  color: white;
+}
+
+/* Add Profile Card in Manage Mode */
+.profiles-grid.manage-mode .add-profile-card {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.profiles-grid.manage-mode .add-profile-card:hover {
+  transform: none;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Buttons */
+.manage-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: "Spline Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.manage-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.done-button {
+  background: #d926a9;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: "Spline Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(217, 38, 169, 0.3);
+}
+
+.done-button:hover {
+  background: #c41d7f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(217, 38, 169, 0.5);
+}
+
+/* Edit Profile Modal */
+.edit-profile-modal {
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.edit-modal-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.edit-modal-header h2 {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.edit-form-container {
+  padding: 24px;
+}
+
+/* Profile Icon Selector */
+.profile-icon-selector {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.current-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  transition: all 0.3s ease;
+}
+
+.current-icon .material-symbols-outlined {
+  font-size: 40px;
+  color: white;
+}
+
+.icon-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.icon-option {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.icon-option:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.icon-option.selected {
+  border-color: currentColor;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.icon-option .material-symbols-outlined {
+  font-size: 28px;
+  color: white;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: white;
+  font-family: "Spline Sans", sans-serif;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="text"]:focus {
+  outline: none;
+  border-color: #00f0ff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.form-group input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Theme Options */
+.theme-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.theme-option {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 3px solid transparent;
+}
+
+.theme-option:hover {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.theme-option.selected {
+  border-color: white;
+  transform: scale(1.1);
+}
+
+.theme-option .material-symbols-outlined {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.theme-option.selected .material-symbols-outlined {
+  opacity: 1;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-cancel {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: "Spline Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-save {
+  background: #00f0ff;
+  border: none;
+  color: black;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: "Spline Sans", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+  background: #00d4e5;
+  transform: translateY(-2px);
+}
+
+.btn-save:disabled {
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .edit-profile-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+  
+  .icon-options {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .theme-options {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+  
+  .btn-cancel,
+  .btn-save {
+    width: 100%;
+    order: 2;
+  }
+  
+  .btn-cancel {
+    order: 1;
+  }
+}

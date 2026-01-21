@@ -1,0 +1,118 @@
+/* Profile Dropdown Styles */
+.profile-dropdown {
+    position: fixed;
+    top: 80px;
+    right: 32px;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    min-width: 240px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.profile-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-header {
+    padding: 16px 20px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-content {
+    padding: 8px 0;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item .material-symbols-outlined {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.dropdown-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.dropdown-name {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 8px 0;
+}
+
+/* Profile Notification */
+.profile-notification {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 2000;
+    opacity: 0;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-notification.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-dropdown {
+        right: 16px;
+        top: 70px;
+        min-width: 200px;
+    }
+    
+    .profile-notification {
+        left: 16px;
+        right: 16px;
+        transform: translateY(100px);
+        text-align: center;
+    }
+    
+    .profile-notification.show {
+        transform: translateY(0);
+    }
+}

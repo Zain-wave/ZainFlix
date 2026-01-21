@@ -1,0 +1,238 @@
+<!doctype html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ZainFlix - My List</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/home.css" />
+    <link rel="stylesheet" href="./css/components/mylist.css" />
+    <link rel="stylesheet" href="./css/components/movie-card.css" />
+    <link rel="stylesheet" href="./css/components/profile-dropdown.css" />
+    <link rel="stylesheet" href="./css/mylist-page.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <div class="header-left">
+          <div class="logo-container">
+            <div class="logo-icon">
+              <svg
+                width="100%"
+                height="100%"
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                ></path>
+              </svg>
+            </div>
+            <h2 class="logo-text">ZAINFLIX</h2>
+          </div>
+          <nav>
+            <a class="nav-link" href="home.html">Home</a>
+            <a class="nav-link" href="#">Series</a>
+            <a class="nav-link" href="#">Movies</a>
+            <a class="nav-link active" href="#">My List</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <button class="icon-button">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+          <button class="icon-button">
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <div
+            class="profile-avatar"
+            style="
+              background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCUCyeKMZwx5o-i13yqrdDHMsKRNa4SJ7h1-a8UV9Fr01c7KdbnYzmNi4ATlJ9nUdUP7kvLRc9r4FqSVwDpJIICxFS3wnbldyI1Y86DNppe1kK9ZBJBE8rAClCjqV3Zq3XEdU5ZS-4SqB_-OC19PZMbpVxRagf9AC_nUQEUSsnObej373uWB0wS9uc3bkFUX87rd19vHVAfVQutkPmWFyJz0RmMLmGYXJYKEZQN0KIZjlFwxIt1_G9ffn0BFbMhUMZvQR5Fw95MGUxa&quot;);
+            "
+          ></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+      <!-- Hero Section for My List -->
+      <div class="hero-section mylist-hero">
+        <div class="hero-bg" style="background: linear-gradient(135deg, #f000ff 0%, #00f0ff 100%);">
+          <div class="hero-gradient-bottom"></div>
+          <div class="hero-gradient-left"></div>
+        </div>
+        <div class="hero-content">
+          <span class="trending-badge">
+            <span class="material-symbols-outlined">bookmark</span>
+            Your Collection
+          </span>
+          <h1 class="hero-title">My List</h1>
+          <div class="hero-meta">
+            <span class="hero-match" id="listCount">0 items</span>
+            <span id="lastUpdated">Updated just now</span>
+            <span class="hero-quality">
+                <span class="material-symbols-outlined">hd</span> HD
+            </span>
+          </div>
+          <h2 class="hero-description">
+            Your personal collection of movies and shows. All your favorites in one place, ready to watch anytime.
+          </h2>
+          <div class="hero-buttons">
+            <button class="btn-play" id="shufflePlay">
+              <span class="material-symbols-outlined">shuffle</span>
+              <span>Shuffle Play</span>
+            </button>
+            <button class="btn-list" id="clearList">
+              <span class="material-symbols-outlined">clear_all</span>
+              <span>Clear List</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- My List Content -->
+      <div class="sections-container">
+        <section class="section mylist-section">
+          <div class="section-header">
+            <h2 class="section-title">Your Saved Content</h2>
+            <div class="section-controls">
+              <select class="sort-select" id="sortSelect">
+                <option value="recent">Recently Added</option>
+                <option value="alphabetical">A-Z</option>
+                <option value="rating">Highest Rated</option>
+                <option value="year">Newest First</option>
+              </select>
+              <button class="view-toggle" id="viewToggle">
+                <span class="material-symbols-outlined">grid_view</span>
+              </button>
+            </div>
+          </div>
+          <div class="carousel mylist-carousel">
+            <div class="carousel-inner" id="myListContent">
+              <!-- My List items will be dynamically loaded here -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+          <div class="empty-icon">
+            <span class="material-symbols-outlined">bookmark_border</span>
+          </div>
+          <h2 class="empty-title">Your list is empty</h2>
+          <p class="empty-description">
+            Start adding movies and shows to your list to see them here. Click the "My List" button on any title to save it for later.
+          </p>
+          <button class="btn-explore" onclick="window.location.href='home.html'">
+            <span class="material-symbols-outlined">explore</span>
+            <span>Explore Content</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Movie Details Modal (reused from home) -->
+    <div class="modal-backdrop" id="movieModal">
+      <div class="modal-outer">
+        <div class="modal-content">
+          <!-- Close Button -->
+          <button class="close-btn" id="closeModal">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+
+          <!-- Hero Section -->
+          <div class="modal-hero-section">
+            <div class="modal-hero-image" id="modalHeroImage"></div>
+            <div class="modal-hero-gradient"></div>
+            <div class="modal-play-btn-wrapper">
+              <button class="modal-play-btn">
+                <span class="material-symbols-outlined">play_arrow</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Info Section -->
+          <div class="modal-info-section">
+            <h1 class="modal-title" id="modalTitle">Loading...</h1>
+            
+            <div class="modal-metadata">
+              <span class="year" id="modalYear">2024</span>
+              <span class="separator">•</span>
+              <span class="rating-badge" id="modalRating">TV-MA</span>
+              <span class="separator">•</span>
+              <span class="genre" id="modalGenres">Sci-Fi / Action</span>
+              <span class="separator">•</span>
+              <span class="duration" id="modalDuration">2h 14m</span>
+            </div>
+
+            <div class="modal-content-grid">
+              <div class="modal-left-column">
+                <div class="modal-action-bar">
+                  <button class="modal-btn-play">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                    Play Movie
+                  </button>
+                  <button class="modal-icon-btn primary" aria-label="Add to my list">
+                    <span class="material-symbols-outlined">add</span>
+                    <div class="tooltip">Add to List</div>
+                  </button>
+                  <button class="modal-icon-btn" aria-label="Rate this">
+                    <span class="material-symbols-outlined">thumb_up</span>
+                  </button>
+                  <button class="modal-icon-btn modal-btn-share" aria-label="Share">
+                    <span class="material-symbols-outlined">share</span>
+                  </button>
+                </div>
+
+                <p class="modal-synopsis" id="modalSynopsis">
+                  Loading movie details...
+                </p>
+              </div>
+
+              <div class="modal-right-column">
+                <div class="modal-detail-item">
+                  <span class="modal-detail-label">Added on:</span>
+                  <span id="modalAddedDate">Loading...</span>
+                </div>
+                <div class="modal-detail-item">
+                  <span class="modal-detail-label">Cast:</span>
+                  <span id="modalCast">Loading...</span>
+                </div>
+                <div class="modal-detail-item">
+                  <span class="modal-detail-label">Director:</span>
+                  <span id="modalDirector">Loading...</span>
+                </div>
+                <div class="modal-detail-item">
+                  <span class="modal-detail-label">Genres:</span>
+                  <span id="modalGenreList">Loading...</span>
+                </div>
+                <div class="modal-detail-item">
+                  <span class="modal-detail-label">Maturity Rating:</span>
+                  <span class="rating-badge-info" id="modalMaturityBadge">TV-MA</span>
+                  <p class="modal-rating-description" id="modalMaturityDesc">Language, Violence</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-bottom-gradient"></div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="mylist.js"></script>
+    <script src="./js/services/auth.service.js"></script>
+    <script type="module" src="./js/components/profile-manager.js"></script>
+  </body>
+</html>

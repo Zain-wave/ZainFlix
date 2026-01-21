@@ -12,8 +12,8 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../assets/styles/pages/profile.css" />
-    <link rel="stylesheet" href="../assets/styles/pages/profile-management.css" />
+    <link rel="stylesheet" href="src/assets/styles/pages/profile.css" />
+    <link rel="stylesheet" href="src/assets/styles/pages/profile-management.css" />
   </head>
   <body>
     <header>
@@ -320,10 +320,10 @@
                 window.AuthService.logout();
               }
               
-              window.location.href = "../index.html";
+              window.location.href = "index.html";
             } catch (error) {
               console.error('Error during logout:', error);
-              window.location.href = "../index.html";
+              window.location.href = "index.html";
             }
           });
         }
@@ -581,6 +581,6 @@
         }, 2000);
       }
     </script>
-    <script src="../assets/scripts/services/auth.service.js"></script>
+    <script src="src/assets/scripts/services/auth.service.js"></script>
   </body>
 </html>

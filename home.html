@@ -240,5 +240,19 @@
 
     <script type="module" src="src/assets/scripts/pages/home.js"></script>
     <script src="src/assets/scripts/services/auth.service.js"></script>
+    <script type="module" src="src/assets/scripts/components/profile-manager.js"></script>
+    <script>
+        // Initialize ProfileManager and refresh profiles
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                if (window.ProfileManager) {
+                    window.profileManager = new window.ProfileManager();
+                    console.log('ProfileManager initialized');
+                    // Check for changes immediately
+                    window.profileManager.checkForProfileChanges();
+                }
+            }, 100);
+        });
+    </script>
   </body>
 </html>

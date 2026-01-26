@@ -1,7 +1,7 @@
 // ZainFlix Profile Manager - Shared Component
 class ProfileManager {
     constructor() {
-        this.profiles = {
+        this.defaultProfiles = {
             'Katana': {
                 icon: 'swords',
                 color: '#f000ff',
@@ -21,9 +21,117 @@ class ProfileManager {
         this.init();
     }
 
+    getProfiles() {
+        // Load custom profiles from localStorage and merge with defaults
+        const customProfiles = this.getCustomProfiles();
+        const allProfiles = { ...this.defaultProfiles, ...customProfiles };
+        
+        // Filter out deleted profiles for current user
+        const filteredProfiles = {};
+        Object.entries(allProfiles).forEach(([name, profile]) => {
+            if (!this.isProfileDeleted(name)) {
+                filteredProfiles[name] = profile;
+            }
+        });
+        
+        return filteredProfiles;
+    }
+
+    getCustomProfiles() {
+        try {
+            // Get current user session
+            const userSession = localStorage.getItem("userSession");
+            const userKey = userSession ? JSON.parse(userSession).email : 'default';
+            
+            const storageKey = `customProfiles_${userKey}`;
+            const savedProfiles = localStorage.getItem(storageKey);
+            return savedProfiles ? JSON.parse(savedProfiles) : {};
+        } catch (error) {
+            console.error('Error loading custom profiles:', error);
+            return {};
+        }
+    }
+
+    saveProfile(name, profileData) {
+        try {
+            const customProfiles = this.getCustomProfiles();
+            customProfiles[name] = {
+                ...profileData,
+                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${profileData.color.replace('#', '')}&color=fff&size=128`
+            };
+            
+            // Get current user session
+            const userSession = localStorage.getItem("userSession");
+            const userKey = userSession ? JSON.parse(userSession).email : 'default';
+            const storageKey = `customProfiles_${userKey}`;
+            
+            localStorage.setItem(storageKey, JSON.stringify(customProfiles));
+            console.log('Profile saved for user:', userKey, name, profileData);
+        } catch (error) {
+            console.error('Error saving profile:', error);
+        }
+    }
+
+    getProfile(name) {
+        const profiles = this.getProfiles();
+        const profile = profiles[name];
+        
+        // Check if this profile is deleted for the current user
+        if (profile && this.isProfileDeleted(name)) {
+            console.log('Profile is deleted for current user:', name);
+            return null;
+        }
+        
+        return profile || null;
+    }
+
+    isProfileDeleted(name) {
+        try {
+            // Get current user session
+            const userSession = localStorage.getItem("userSession");
+            const userKey = userSession ? JSON.parse(userSession).email : 'default';
+            
+            const deletedKey = `deletedProfiles_${userKey}`;
+            const deletedProfiles = localStorage.getItem(deletedKey);
+            if (deletedProfiles) {
+                const deleted = JSON.parse(deletedProfiles);
+                return deleted.includes(name);
+            }
+            return false;
+        } catch (error) {
+            console.error('Error checking deleted profiles:', error);
+            return false;
+        }
+    }
+
     init() {
         this.updateProfileAvatar();
         this.setupProfileMenu();
+        
+        // Listen for storage changes from other tabs
+        window.addEventListener('storage', (e) => {
+            // Check if it's a profile-related key for any user
+            if (e.key && (e.key.startsWith('customProfiles_') || e.key.startsWith('deletedProfiles_') || e.key === 'selectedProfile' || e.key === 'userSession')) {
+                this.refreshOnUserChange();
+            }
+        });
+
+        // Listen for page visibility changes (user returns from profile page)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                this.refreshOnUserChange();
+            }
+        });
+
+        // Also check when window gets focus
+        window.addEventListener('focus', () => {
+            this.refreshOnUserChange();
+        });
+
+        // Check user changes periodically (every 2 seconds)
+        setInterval(() => {
+            this.refreshOnUserChange();
+        }, 2000);
     }
 
     getSelectedProfile() {
@@ -36,9 +144,13 @@ class ProfileManager {
         const profileAvatar = document.querySelector('.profile-avatar');
         
         if (selectedProfile && profileAvatar) {
-            const profile = this.profiles[selectedProfile.name];
+            const profiles = this.getProfiles();
+            const profile = profiles[selectedProfile.name];
             if (profile) {
                 profileAvatar.style.backgroundImage = `url('${profile.avatar}')`;
+                console.log('Updated avatar for profile:', selectedProfile.name, 'with avatar:', profile.avatar);
+            } else {
+                console.warn('Profile not found:', selectedProfile.name);
             }
         }
     }
@@ -59,7 +171,7 @@ class ProfileManager {
         dropdown.innerHTML = `
             <div class="dropdown-header">Switch Profile</div>
             <div class="dropdown-content">
-                ${Object.entries(this.profiles).map(([name, profile]) => `
+                ${Object.entries(this.getProfiles()).map(([name, profile]) => `
                     <div class="dropdown-item" data-profile="${name}">
                         <div class="dropdown-avatar" style="background-image: url('${profile.avatar}')"></div>
                         <span class="dropdown-name">${name}</span>
@@ -115,7 +227,8 @@ class ProfileManager {
     }
 
     switchProfile(profileName) {
-        const profile = this.profiles[profileName];
+        const profiles = this.getProfiles();
+        const profile = profiles[profileName];
         if (profile) {
             const selectedProfile = {
                 name: profileName,
@@ -128,18 +241,28 @@ class ProfileManager {
             
             // Show brief notification
             this.showNotification(`Switched to ${profileName}`);
-            
-            // Reload page to update content if needed
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+        } else {
+            console.warn('Profile not found:', profileName);
         }
     }
 
     signOut() {
+        // Get current user before clearing
+        const userSession = localStorage.getItem('userSession');
+        const userKey = userSession ? JSON.parse(userSession).email : 'default';
+        
+        // Clear authentication
         localStorage.removeItem('userSession');
         localStorage.removeItem('selectedProfile');
         localStorage.removeItem('rememberUser');
+        
+        // Clean up user-specific data if not remembering user
+        const rememberUser = localStorage.getItem('rememberUser');
+        if (!rememberUser) {
+          console.log('Clearing session data for user:', userKey);
+          // Remove any temporary session data but keep profiles for future logins
+        }
+        
         window.location.href = 'index.html';
     }
 
@@ -160,6 +283,55 @@ class ProfileManager {
             }, 300);
         }, 2000);
     }
+
+    refreshProfiles() {
+        // Force reload of profiles and UI
+        this.setupProfileMenu();
+        this.updateProfileAvatar();
+        console.log('Profiles refreshed');
+    }
+
+    // Refresh when user data changes
+    refreshOnUserChange() {
+        const lastUserSession = this.lastUserSession;
+        const currentUserSession = localStorage.getItem('userSession');
+        
+        if (lastUserSession !== currentUserSession) {
+            console.log('User session changed, refreshing profiles');
+            this.lastUserSession = currentUserSession;
+            this.refreshProfiles();
+        }
+    }
+
+    // Check for profile changes when page becomes visible
+    checkForProfileChanges() {
+        const lastProfilesHash = this.profilesHash || '';
+        const currentProfiles = JSON.stringify(this.getProfiles());
+        const currentHash = this.hashCode(currentProfiles);
+        
+        if (lastProfilesHash !== currentHash) {
+            this.profilesHash = currentHash;
+            this.refreshProfiles();
+            console.log('Profile changes detected and refreshed');
+        }
+    }
+
+    // Simple hash function for detecting changes
+    hashCode(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash.toString();
+    }
 }
 
+// Export for modules
 export { ProfileManager };
+
+// Make available globally for non-module scripts
+if (typeof window !== 'undefined') {
+    window.ProfileManager = ProfileManager;
+}

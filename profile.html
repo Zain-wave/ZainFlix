@@ -457,6 +457,9 @@
         // Update the UI
         updateProfileCard(editingProfile, profileData);
         
+        // Save to localStorage for ProfileManager to use
+        saveProfileToLocalStorage(editingProfile, newName, profileData);
+        
         // Show success message
         showNotification(`Profile "${newName}" updated successfully`);
         closeEditModal();
@@ -516,6 +519,10 @@
         
         setTimeout(() => {
           element.remove();
+          
+          // Also remove from localStorage
+          deleteProfileFromStorage(profileName);
+          
           showNotification(`Profile "${profileName}" deleted`);
         }, 300);
       }
@@ -580,6 +587,141 @@
           }, 300);
         }, 2000);
       }
+
+      function saveProfileToLocalStorage(oldName, newName, profileData) {
+        try {
+          // Get current user session
+          const userSession = localStorage.getItem("userSession");
+          const userKey = userSession ? JSON.parse(userSession).email : 'default';
+          
+          // Get user-specific custom profiles
+          const storageKey = `customProfiles_${userKey}`;
+          let customProfiles = localStorage.getItem(storageKey);
+          customProfiles = customProfiles ? JSON.parse(customProfiles) : {};
+          
+          // Update profile
+          customProfiles[newName] = {
+            ...profileData,
+            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(newName)}&background=${profileData.color.replace('#', '')}&color=fff&size=128`
+          };
+          
+          // If name changed, remove old one
+          if (oldName !== newName) {
+            delete customProfiles[oldName];
+            
+            // Update selectedProfile if it was the old name
+            const selectedProfile = localStorage.getItem('selectedProfile');
+            if (selectedProfile) {
+              const selected = JSON.parse(selectedProfile);
+              if (selected.name === oldName) {
+                selected.name = newName;
+                localStorage.setItem('selectedProfile', JSON.stringify(selected));
+              }
+            }
+          }
+          
+          // Save back to localStorage with user-specific key
+          localStorage.setItem(storageKey, JSON.stringify(customProfiles));
+          console.log('Profile saved to localStorage for user:', userKey, newName, profileData);
+          console.log('All custom profiles for user:', customProfiles);
+        } catch (error) {
+          console.error('Error saving profile to localStorage:', error);
+        }
+      }
+            }
+          }
+          
+          // Save back to localStorage
+          localStorage.setItem('customProfiles', JSON.stringify(customProfiles));
+          console.log('Profile saved to localStorage:', newName, profileData);
+          console.log('All custom profiles:', customProfiles);
+        } catch (error) {
+          console.error('Error saving profile to localStorage:', error);
+        }
+      }
+
+      function deleteProfileFromStorage(profileName) {
+        try {
+          // Get current user session
+          const userSession = localStorage.getItem("userSession");
+          const userKey = userSession ? JSON.parse(userSession).email : 'default';
+          
+          // Remove from user-specific custom profiles
+          const storageKey = `customProfiles_${userKey}`;
+          let customProfiles = localStorage.getItem(storageKey);
+          customProfiles = customProfiles ? JSON.parse(customProfiles) : {};
+          
+          if (customProfiles[profileName]) {
+            delete customProfiles[profileName];
+            localStorage.setItem(storageKey, JSON.stringify(customProfiles));
+            console.log('Profile removed from storage for user:', userKey, profileName);
+          }
+          
+          // Check if it's a default profile that was customized
+          // We need to mark it as deleted in a user-specific deleted profiles list
+          const deletedKey = `deletedProfiles_${userKey}`;
+          let deletedProfiles = localStorage.getItem(deletedKey);
+          deletedProfiles = deletedProfiles ? JSON.parse(deletedProfiles) : [];
+          
+          if (!deletedProfiles.includes(profileName)) {
+            deletedProfiles.push(profileName);
+            localStorage.setItem(deletedKey, JSON.stringify(deletedProfiles));
+            console.log('Profile added to deleted list for user:', userKey, profileName);
+          }
+          
+        } catch (error) {
+          console.error('Error deleting profile from storage:', error);
+        }
+      }
+
+      // Load and display custom profiles on page load
+      function loadCustomProfiles() {
+        try {
+          // Get current user session
+          const userSession = localStorage.getItem("userSession");
+          const userKey = userSession ? JSON.parse(userSession).email : 'default';
+          
+          const storageKey = `customProfiles_${userKey}`;
+          const customProfiles = localStorage.getItem(storageKey);
+          if (customProfiles) {
+            const profiles = JSON.parse(customProfiles);
+            console.log('Loading custom profiles for user:', userKey, profiles);
+            
+            // Update UI to show custom profiles
+            Object.entries(profiles).forEach(([name, data]) => {
+              updateProfileCard(name, data);
+            });
+          }
+          
+          // Also load deleted profiles to hide default ones
+          const deletedKey = `deletedProfiles_${userKey}`;
+          const deletedProfiles = localStorage.getItem(deletedKey);
+          if (deletedProfiles) {
+            const deleted = JSON.parse(deletedProfiles);
+            console.log('Deleted profiles for user:', userKey, deleted);
+            
+            // Hide deleted default profiles
+            deleted.forEach(deletedName => {
+              const profileItems = document.querySelectorAll('.profile-item');
+              profileItems.forEach(item => {
+                const profileNameElement = item.querySelector('.profile-name');
+                if (profileNameElement && profileNameElement.textContent === deletedName) {
+                  item.style.display = 'none';
+                }
+              });
+            });
+          }
+        } catch (error) {
+          console.error('Error loading custom profiles:', error);
+        }
+      }
+
+      // Initialize custom profiles when page loads
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          loadCustomProfiles();
+        }, 100);
+      });
     </script>
     <script src="src/assets/scripts/services/auth.service.js"></script>
   </body>
